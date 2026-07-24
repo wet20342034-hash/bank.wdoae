@@ -36,7 +36,7 @@
     
     /* ================== PRINT SECTION STYLES ================== */
     #print-section { display: none; background: white; color: black; font-family: 'Sarabun', serif; font-size: 11pt; line-height: 1.35; }
-    #print-section .page-break { page-break-after: always; clear: both; box-sizing: border-box; }
+    #print-section .page-break { page-break-after: always; clear: both; box-sizing: border-box; position: relative; overflow: hidden; }
     #print-section .page-break:last-child { page-break-after: auto; }
     #print-section .val { color: #0000cd; display: inline-block; padding: 0 4px; border-bottom: 1px dotted #000; text-align: center; font-weight: 500; line-height: 1.2; min-width: 30px; font-size: 11pt; }
     #print-section .val-left { color: #0000cd; display: inline-block; padding-left: 5px; border-bottom: 1px dotted #000; text-align: left; font-weight: 500; line-height: 1.2; min-width: 30px; font-size: 11pt; }
@@ -58,14 +58,14 @@
 
     @media print {
         @page { size: A4 portrait; margin: 12mm 15mm; } 
-        @page landscape { size: A4 landscape; margin: 10mm 12mm; } 
+        @page landscape_page { size: A4 landscape; margin: 10mm 12mm; } 
         
-        body { margin: 0; padding: 0; min-width: auto !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        body { margin: 0; padding: 0; min-width: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         #ui-section { display: none !important; }
-        #print-section { display: block !important; padding: 0; background: none; }
+        #print-section { display: block !important; padding: 0; margin: 0; background: none; width: 100%; }
         
-        #print-section .page-break { width: 100%; margin: 0; padding: 0; box-shadow: none; }
-        #print-section .page-landscape { page: landscape; width: 100%; padding: 0; }
+        .page-break { width: 180mm !important; margin: 0 auto; padding: 0; }
+        .page-landscape { page: landscape_page; width: 273mm !important; }
     }
     </style>
 </head>
@@ -423,255 +423,259 @@
         
         <!-- หน้าที่ 1 (ใบเบิก 8708) -->
         <div class="page-break" id="page1_container">
-            <div style="display: flex; justify-content: space-between; font-size: 11pt; margin-bottom: 10px; line-height: 1.5; margin-top: 10px;">
-                <div style="width: 75%;">
+            <div id="page1_content">
+                <div style="display: flex; justify-content: space-between; font-size: 11pt; margin-bottom: 10px; line-height: 1.5; margin-top: 10px;">
+                    <div style="width: 75%;">
+                        <div class="f-row">
+                            <div style="flex: 1; display: flex;">สัญญาเงินยืมเลขที่ <span class="val" style="flex:1; margin: 0 10px;"></span></div>
+                            <div style="width: 250px; display: flex;">วันที่ <span class="val" style="flex:1; margin-left: 10px;"></span></div>
+                        </div>
+                        <div class="f-row" style="margin-top: 5px;">
+                            <div style="flex: 1; display: flex;">ชื่อผู้ยืม <span class="val" style="flex:1; margin: 0 10px;"></span></div>
+                            <div style="width: 250px; display: flex;">จำนวนเงินยืม <span class="val" style="flex:1; margin: 0 10px;"></span> บาท</div>
+                        </div>
+                    </div>
+                    <div style="width: 30%; text-align: right;">
+                        <div>ส่วนที่ 1</div>
+                        <div>แบบ 8708</div>
+                    </div>
+                </div>
+
+                <div class="text-center fw-bold" style="font-size: 14pt; margin: 10px 0 15px 0;">
+                    ใบเบิกค่าใช้จ่ายในการเดินทางไปราชการ
+                </div>
+
+                <div style="text-align: right; margin-bottom: 10px; line-height: 1.4;">
+                    ที่ทำการ <span class="val text-center" id="pr_office" style="min-width: 200px;"></span><br>
+                    วันที่ <span class="val text-center" id="pr_doc_d" style="width: 40px;"></span> 
+                    เดือน <span class="val text-center" id="pr_doc_m" style="width: 120px;"></span> 
+                    พ.ศ. <span class="val text-center" id="pr_doc_y" style="width: 60px;"></span>
+                </div>
+
+                <div class="f-row" style="margin-bottom: 5px;">เรื่อง &nbsp;&nbsp;&nbsp;ขออนุมัติเบิกค่าใช้จ่ายในการเดินทางไปราชการ</div>
+                
+                <div class="f-row" style="margin-bottom: 10px;">เรียน &nbsp;<span class="val-left" style="flex: 1; border-color: transparent;" id="pr_commander"></span></div>
+
+                <div class="indent f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
+                    ตามคำสั่ง/บันทึกข้อความ ที่ <span class="val text-center" id="pr_order_no" style="flex: 1; margin: 0 10px;"></span>
+                    ลงวันที่ <span class="val text-center" id="pr_order_date" style="flex: 1; margin: 0 10px;"></span>
+                    ได้อนุมัติให้
+                </div>
+
+                <div class="f-row" style="margin-bottom: 5px;">
+                    ข้าพเจ้า <span class="val-left" id="pr_main_name" style="width: 280px; margin: 0 10px;"></span>
+                    ตำแหน่ง <span class="val-left" id="pr_main_pos" style="flex: 1; margin-left: 10px;"></span>
+                </div>
+                <div class="f-row" style="margin-bottom: 5px;">
+                    สังกัด <span class="val-left" id="pr_main_dept" style="flex: 1; margin: 0 10px;"></span> 
+                    พร้อมด้วย
+                </div>
+
+                <div class="indent" id="pr_cotravelers_list" style="margin-bottom: 5px; line-height: 1.4;">
+                    <!-- จะถูกสร้างโดย JS ให้ตรงกับจำนวนจริง -->
+                </div>
+
+                <div class="f-row" style="margin-bottom: 5px;">
+                    เดินทางไปปฏิบัติราชการ <span class="val-left" id="pr_trip_purpose" style="flex: 1; margin-left: 10px;"></span>
+                </div>
+                <div class="f-row" style="margin-bottom: 5px;">
+                    ที่ <span class="val-left" id="pr_trip_loc" style="flex: 1; margin-left: 10px;"></span>
+                </div>
+
+                <div style="text-align: right; margin-bottom: 5px; padding-right: 15px;">โดยออกเดินทางจาก</div>
+                <div style="line-height: 1.4; margin-bottom: 10px;">
+                    <div class="f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
+                        <span class="chk" style="margin-left: 10px;">◯</span> บ้านพัก &nbsp;
+                        <span class="chk">◯</span> สำนักงาน &nbsp;
+                        <span class="chk">◯</span> ประเทศไทย &nbsp;&nbsp;
+                        ตั้งแต่วันที่ <span class="val text-center" id="pr_s_d" style="width: 50px;"></span>
+                        เดือน <span class="val text-center" id="pr_s_m" style="width: 130px;"></span>
+                        พ.ศ. <span class="val text-center" id="pr_s_y" style="width: 60px;"></span>
+                        เวลา <span class="val text-center" id="pr_s_t" style="width: 60px;"></span> น.
+                    </div>
+                    <div class="f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
+                        และกลับถึง <span class="chk" style="margin-left: 10px;">◯</span> บ้านพัก &nbsp;
+                        <span class="chk">◯</span> สำนักงาน &nbsp;
+                        <span class="chk">◯</span> ประเทศไทย &nbsp;&nbsp;
+                        วันที่ <span class="val text-center" id="pr_e_d" style="width: 50px;"></span>
+                        เดือน <span class="val text-center" id="pr_e_m" style="width: 130px;"></span>
+                        พ.ศ. <span class="val text-center" id="pr_e_y" style="width: 60px;"></span>
+                        เวลา <span class="val text-center" id="pr_e_t" style="width: 60px;"></span> น.
+                    </div>
                     <div class="f-row">
-                        <div style="flex: 1; display: flex;">สัญญาเงินยืมเลขที่ <span class="val" style="flex:1; margin: 0 10px;"></span></div>
-                        <div style="width: 250px; display: flex;">วันที่ <span class="val" style="flex:1; margin-left: 10px;"></span></div>
+                        รวมเวลาไปราชการครั้งนี้ <span class="val text-center" id="pr_t_d" style="width: 60px; margin: 0 10px;"></span> วัน 
+                        <span class="val text-center" id="pr_t_h" style="width: 60px; margin: 0 10px;"></span> ชั่วโมง 
+                        <span class="val text-center" id="pr_t_m" style="width: 60px; margin: 0 10px;"></span> นาที
+                    </div>
+                </div>
+
+                <div class="f-row" style="margin-bottom: 10px;">
+                    ข้าพเจ้าขอเบิกค่าใช้จ่ายในการเดินทางไปราชการสำหรับ &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="chk" id="chk_for_me">◯</span> ข้าพเจ้า &nbsp;&nbsp;
+                    <span class="chk" id="chk_for_group">◯</span> คณะเดินทาง &nbsp;&nbsp; ดังนี้
+                </div>
+
+                <div style="line-height: 1.4; margin-bottom: 10px;">
+                    <div class="f-row">
+                        ค่าเบี้ยเลี้ยงเดินทางประเภท <span style="flex:1; border-bottom: 1px dotted black; margin: 0 10px;"></span> 
+                        จำนวน <span class="val text-center" id="pr_alw_d" style="width:60px; margin: 0 10px;"></span> วัน 
+                        <span style="margin-left: 20px;">รวม</span> <span class="val text-end" id="pr_alw_tot" style="width:100px; margin: 0 10px;"></span> บาท
+                    </div>
+                    <div class="f-row">
+                        ค่าเช่าที่พักประเภท <span style="flex:1; border-bottom: 1px dotted black; margin: 0 10px;"></span> 
+                        จำนวน <span class="val text-center" id="pr_acc_d" style="width:60px; margin: 0 10px;"></span> วัน 
+                        <span style="margin-left: 20px;">รวม</span> <span class="val text-end" id="pr_acc_tot" style="width:100px; margin: 0 10px;"></span> บาท
+                    </div>
+                    <div class="f-row">
+                        ค่าพาหนะ <span class="val text-center" id="pr_trp_type" style="flex:1; border-bottom: 1px dotted black; margin: 0 10px;"></span> 
+                        <span style="margin-left: 11px;">รวม</span> <span class="val text-end" id="pr_trp_tot" style="width:100px; margin: 0 10px;"></span> บาท
+                    </div>
+                    <div class="f-row">
+                        ค่าใช้จ่ายอื่น <span class="val-left text-center" id="pr_oth_desc" style="flex:1; border-bottom: 1px dotted black; margin: 0 10px; min-height: 16px;"></span> 
+                        <span style="margin-left: 10px;">รวม</span> <span class="val text-end" id="pr_oth_tot" style="width:100px; margin: 0 10px;"></span> บาท
                     </div>
                     <div class="f-row" style="margin-top: 5px;">
-                        <div style="flex: 1; display: flex;">ชื่อผู้ยืม <span class="val" style="flex:1; margin: 0 10px;"></span></div>
-                        <div style="width: 250px; display: flex;">จำนวนเงินยืม <span class="val" style="flex:1; margin: 0 10px;"></span> บาท</div>
+                        <span style="flex:1;"></span>
+                        <span class="fw-bold">รวมเงินทั้งสิ้น</span> <span class="val text-end fw-bold" id="pr_grd_tot" style="width:150px; margin: 0 10px;"></span> บาท
                     </div>
                 </div>
-                <div style="width: 30%; text-align: right;">
-                    <div>ส่วนที่ 1</div>
-                    <div>แบบ 8708</div>
+
+                <div class="f-row" style="margin-bottom: 10px;">
+                    จำนวนเงิน (ตัวอักษร) <span class="val-left text-center" id="pr_baht_txt" style="flex: 1; margin-left: 10px;"></span>
                 </div>
-            </div>
 
-            <div class="text-center fw-bold" style="font-size: 14pt; margin: 10px 0 15px 0;">
-                ใบเบิกค่าใช้จ่ายในการเดินทางไปราชการ
-            </div>
-
-            <div style="text-align: right; margin-bottom: 10px; line-height: 1.4;">
-                ที่ทำการ <span class="val text-center" id="pr_office" style="min-width: 200px;"></span><br>
-                วันที่ <span class="val text-center" id="pr_doc_d" style="width: 40px;"></span> 
-                เดือน <span class="val text-center" id="pr_doc_m" style="width: 120px;"></span> 
-                พ.ศ. <span class="val text-center" id="pr_doc_y" style="width: 60px;"></span>
-            </div>
-
-            <div class="f-row" style="margin-bottom: 5px;">เรื่อง &nbsp;&nbsp;&nbsp;ขออนุมัติเบิกค่าใช้จ่ายในการเดินทางไปราชการ</div>
-            
-            <div class="f-row" style="margin-bottom: 10px;">เรียน &nbsp;<span class="val-left" style="flex: 1; border-color: transparent;" id="pr_commander"></span></div>
-
-            <div class="indent f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
-                ตามคำสั่ง/บันทึกข้อความ ที่ <span class="val text-center" id="pr_order_no" style="flex: 1; margin: 0 10px;"></span>
-                ลงวันที่ <span class="val text-center" id="pr_order_date" style="flex: 1; margin: 0 10px;"></span>
-                ได้อนุมัติให้
-            </div>
-
-            <div class="f-row" style="margin-bottom: 5px;">
-                ข้าพเจ้า <span class="val-left" id="pr_main_name" style="width: 280px; margin: 0 10px;"></span>
-                ตำแหน่ง <span class="val-left" id="pr_main_pos" style="flex: 1; margin-left: 10px;"></span>
-            </div>
-            <div class="f-row" style="margin-bottom: 5px;">
-                สังกัด <span class="val-left" id="pr_main_dept" style="flex: 1; margin: 0 10px;"></span> 
-                พร้อมด้วย
-            </div>
-
-            <div class="indent" id="pr_cotravelers_list" style="margin-bottom: 5px; line-height: 1.4;">
-                <!-- จะถูกสร้างโดย JS ให้ตรงกับจำนวนจริง -->
-            </div>
-
-            <div class="f-row" style="margin-bottom: 5px;">
-                เดินทางไปปฏิบัติราชการ <span class="val-left" id="pr_trip_purpose" style="flex: 1; margin-left: 10px;"></span>
-            </div>
-            <div class="f-row" style="margin-bottom: 5px;">
-                ที่ <span class="val-left" id="pr_trip_loc" style="flex: 1; margin-left: 10px;"></span>
-            </div>
-
-            <div style="text-align: right; margin-bottom: 5px; padding-right: 15px;">โดยออกเดินทางจาก</div>
-            <div style="line-height: 1.4; margin-bottom: 10px;">
                 <div class="f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
-                    <span class="chk" style="margin-left: 10px;">◯</span> บ้านพัก &nbsp;
-                    <span class="chk">◯</span> สำนักงาน &nbsp;
-                    <span class="chk">◯</span> ประเทศไทย &nbsp;&nbsp;
-                    ตั้งแต่วันที่ <span class="val text-center" id="pr_s_d" style="width: 50px;"></span>
-                    เดือน <span class="val text-center" id="pr_s_m" style="width: 130px;"></span>
-                    พ.ศ. <span class="val text-center" id="pr_s_y" style="width: 60px;"></span>
-                    เวลา <span class="val text-center" id="pr_s_t" style="width: 60px;"></span> น.
+                    ข้าพเจ้าขอรับรองว่ารายการที่กล่าวมาข้างต้นเป็นความจริง และหลักฐานการจ่ายที่ส่งมาด้วย จำนวน <span class="val text-center" style="width:40px; margin: 0 10px;"></span> ฉบับ
                 </div>
-                <div class="f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
-                    และกลับถึง <span class="chk" style="margin-left: 10px;">◯</span> บ้านพัก &nbsp;
-                    <span class="chk">◯</span> สำนักงาน &nbsp;
-                    <span class="chk">◯</span> ประเทศไทย &nbsp;&nbsp;
-                    วันที่ <span class="val text-center" id="pr_e_d" style="width: 50px;"></span>
-                    เดือน <span class="val text-center" id="pr_e_m" style="width: 130px;"></span>
-                    พ.ศ. <span class="val text-center" id="pr_e_y" style="width: 60px;"></span>
-                    เวลา <span class="val text-center" id="pr_e_t" style="width: 60px;"></span> น.
+                <div class="f-row" style="margin-bottom: 20px;">
+                    รวมทั้งจำนวนเงินที่ขอเบิกถูกต้องตามกฎหมายทุกประการ
                 </div>
-                <div class="f-row">
-                    รวมเวลาไปราชการครั้งนี้ <span class="val text-center" id="pr_t_d" style="width: 60px; margin: 0 10px;"></span> วัน 
-                    <span class="val text-center" id="pr_t_h" style="width: 60px; margin: 0 10px;"></span> ชั่วโมง 
-                    <span class="val text-center" id="pr_t_m" style="width: 60px; margin: 0 10px;"></span> นาที
-                </div>
-            </div>
 
-            <div class="f-row" style="margin-bottom: 10px;">
-                ข้าพเจ้าขอเบิกค่าใช้จ่ายในการเดินทางไปราชการสำหรับ &nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="chk" id="chk_for_me">◯</span> ข้าพเจ้า &nbsp;&nbsp;
-                <span class="chk" id="chk_for_group">◯</span> คณะเดินทาง &nbsp;&nbsp; ดังนี้
-            </div>
-
-            <div style="line-height: 1.4; margin-bottom: 10px;">
-                <div class="f-row">
-                    ค่าเบี้ยเลี้ยงเดินทางประเภท <span style="flex:1; border-bottom: 1px dotted black; margin: 0 10px;"></span> 
-                    จำนวน <span class="val text-center" id="pr_alw_d" style="width:60px; margin: 0 10px;"></span> วัน 
-                    <span style="margin-left: 20px;">รวม</span> <span class="val text-end" id="pr_alw_tot" style="width:100px; margin: 0 10px;"></span> บาท
-                </div>
-                <div class="f-row">
-                    ค่าเช่าที่พักประเภท <span style="flex:1; border-bottom: 1px dotted black; margin: 0 10px;"></span> 
-                    จำนวน <span class="val text-center" id="pr_acc_d" style="width:60px; margin: 0 10px;"></span> วัน 
-                    <span style="margin-left: 20px;">รวม</span> <span class="val text-end" id="pr_acc_tot" style="width:100px; margin: 0 10px;"></span> บาท
-                </div>
-                <div class="f-row">
-                    ค่าพาหนะ <span class="val text-center" id="pr_trp_type" style="flex:1; border-bottom: 1px dotted black; margin: 0 10px;"></span> 
-                    <span style="margin-left: 11px;">รวม</span> <span class="val text-end" id="pr_trp_tot" style="width:100px; margin: 0 10px;"></span> บาท
-                </div>
-                <div class="f-row">
-                    ค่าใช้จ่ายอื่น <span class="val-left text-center" id="pr_oth_desc" style="flex:1; border-bottom: 1px dotted black; margin: 0 10px; min-height: 16px;"></span> 
-                    <span style="margin-left: 10px;">รวม</span> <span class="val text-end" id="pr_oth_tot" style="width:100px; margin: 0 10px;"></span> บาท
-                </div>
-                <div class="f-row" style="margin-top: 5px;">
-                    <span style="flex:1;"></span>
-                    <span class="fw-bold">รวมเงินทั้งสิ้น</span> <span class="val text-end fw-bold" id="pr_grd_tot" style="width:150px; margin: 0 10px;"></span> บาท
-                </div>
-            </div>
-
-            <div class="f-row" style="margin-bottom: 10px;">
-                จำนวนเงิน (ตัวอักษร) <span class="val-left text-center" id="pr_baht_txt" style="flex: 1; margin-left: 10px;"></span>
-            </div>
-
-            <div class="f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
-                ข้าพเจ้าขอรับรองว่ารายการที่กล่าวมาข้างต้นเป็นความจริง และหลักฐานการจ่ายที่ส่งมาด้วย จำนวน <span class="val text-center" style="width:40px; margin: 0 10px;"></span> ฉบับ
-            </div>
-            <div class="f-row" style="margin-bottom: 20px;">
-                รวมทั้งจำนวนเงินที่ขอเบิกถูกต้องตามกฎหมายทุกประการ
-            </div>
-
-            <div style="display: flex; justify-content: space-between; text-align: center; margin-top: 10px;">
-                <div style="width: 45%;">
-                    <div style="margin-bottom: 15px;">ลงชื่อผู้ตรวจ</div>
-                    <br><br><br>
-                    <div>( <span style="border-bottom: 1px dotted #000; display: inline-block; width: 200px;"></span> )</div>
-                    <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px;">
-                        <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">ตำแหน่ง</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
-                        <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">วันที่</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
+                <div style="display: flex; justify-content: space-between; text-align: center; margin-top: 10px;">
+                    <div style="width: 45%;">
+                        <div style="margin-bottom: 15px;">ลงชื่อผู้ตรวจ</div>
+                        <br><br><br>
+                        <div>( <span style="border-bottom: 1px dotted #000; display: inline-block; width: 200px;"></span> )</div>
+                        <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                            <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">ตำแหน่ง</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
+                            <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">วันที่</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
+                        </div>
                     </div>
-                </div>
-                <div style="width: 45%;">
-                    <div style="margin-bottom: 15px;">ลงชื่อผู้ขอรับเงิน</div>
-                    <br><br><br>
-                    <div>( <span style="border-bottom: 1px dotted #000; display: inline-block; width: 200px;"></span> )</div>
-                    <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px;">
-                        <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">ตำแหน่ง</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
-                        <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">วันที่</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
+                    <div style="width: 45%;">
+                        <div style="margin-bottom: 15px;">ลงชื่อผู้ขอรับเงิน</div>
+                        <br><br><br>
+                        <div>( <span style="border-bottom: 1px dotted #000; display: inline-block; width: 200px;"></span> )</div>
+                        <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                            <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">ตำแหน่ง</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
+                            <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">วันที่</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- หน้าที่ 2 (- ๒ -) -->
-        <div class="page-break" style="padding-top: 10px;">
-            <div class="text-center" style="margin-bottom: 15px;">-2-</div>
-            
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                <div style="width: 45%; padding-left: 20px;">
-                    <div style="margin-bottom: 25px; line-height: 1.5; white-space: nowrap;">ได้ตรวจสอบหลักฐานการเบิกจ่ายเงินที่แนบ<br>ถูกต้องแล้ว เห็นควรอนุมัติให้เบิกจ่ายได้</div>
+        <div class="page-break" id="page2_container" style="padding-top: 10px;">
+            <div id="page2_content">
+                <div class="text-center" style="margin-bottom: 15px;">-2-</div>
+                
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="width: 45%; padding-left: 20px;">
+                        <div style="margin-bottom: 25px; line-height: 1.5; white-space: nowrap;">ได้ตรวจสอบหลักฐานการเบิกจ่ายเงินที่แนบ<br>ถูกต้องแล้ว เห็นควรอนุมัติให้เบิกจ่ายได้</div>
+                        
+                        <div class="f-row" style="margin-bottom: 15px;">
+                            <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 15px;">
+                            <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 15px;">
+                            <span>ตำแหน่ง</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                        <div class="f-row">
+                            <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                    </div>
                     
-                    <div class="f-row" style="margin-bottom: 15px;">
-                        <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 15px;">
-                        <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 15px;">
-                        <span>ตำแหน่ง</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
-                    <div class="f-row">
-                        <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                    <div style="width: 45%;">
+                        <div class="text-center" style="margin-bottom: 45px;">อนุมัติให้จ่ายได้</div>
+                        
+                        <div class="f-row" style="margin-bottom: 15px;">
+                            <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 15px;">
+                            <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 15px;">
+                            <span>ตำแหน่ง</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                        <div class="f-row">
+                            <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
                     </div>
                 </div>
                 
-                <div style="width: 45%;">
-                    <div class="text-center" style="margin-bottom: 45px;">อนุมัติให้จ่ายได้</div>
-                    
-                    <div class="f-row" style="margin-bottom: 15px;">
-                        <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                <div class="f-row" style="margin-top: 20px;">
+                    <span class="indent">ได้รับเงินค่าใช้จ่ายในการเดินทางไปราชการ จำนวน</span> <span class="val text-center fw-bold" id="pr2_amt" style="width: 150px; padding: 0 15px; border-color: transparent;"></span> บาท
+                </div>
+                <div class="f-row" style="margin-bottom: 25px;">
+                    ( <span class="val text-center fw-bold" id="pr2_baht" style="flex: 1; border-color: transparent;"></span> ) ไว้เป็นการถูกต้องแล้ว
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-bottom: 25px; text-align: center;">
+                    <div style="width: 45%;">
+                        <div class="f-row" style="margin-bottom: 10px;">
+                            <br><br><br>
+                            <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>ผู้รับเงิน</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 10px;">
+                            <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
+                            <span>ตำแหน่ง </span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                        <div class="f-row" style="display: flex; align-items: center; justify-content: center;">
+                            <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
                     </div>
-                    <div class="f-row" style="margin-bottom: 15px;">
-                        <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 15px;">
-                        <span>ตำแหน่ง</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
-                    <div class="f-row">
-                        <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                    <div style="width: 45%;">
+                        <div class="f-row" style="margin-bottom: 10px;">
+                            <br><br><br>
+                            <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>ผู้จ่ายเงิน</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 10px;">
+                            <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
+                            <span>ตำแหน่ง </span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                        <div class="f-row" style="display: flex; align-items: center; justify-content: center;">
+                            <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="f-row" style="margin-top: 20px;">
-                <span class="indent">ได้รับเงินค่าใช้จ่ายในการเดินทางไปราชการ จำนวน</span> <span class="val text-center fw-bold" id="pr2_amt" style="width: 150px; padding: 0 15px; border-color: transparent;"></span> บาท
-            </div>
-            <div class="f-row" style="margin-bottom: 25px;">
-                ( <span class="val text-center fw-bold" id="pr2_baht" style="flex: 1; border-color: transparent;"></span> ) ไว้เป็นการถูกต้องแล้ว
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; margin-bottom: 25px; text-align: center;">
-                <div style="width: 45%;">
-                    <div class="f-row" style="margin-bottom: 10px;">
-                        <br><br><br>
-                        <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>ผู้รับเงิน</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 10px;">
-                        <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span>ตำแหน่ง </span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
-                    <div class="f-row" style="display: flex; align-items: center; justify-content: center;">
-                        <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
+                
+                <div class="f-row" style="margin-bottom: 20px;">
+                    จากเงินยืมตามสัญญาเลขที่ <span style="border-bottom:1px dotted #000; width:200px; margin:0 10px;"></span> 
+                    วันที่ <span style="border-bottom:1px dotted #000; flex:1; margin-left: 10px;"></span>
                 </div>
-                <div style="width: 45%;">
-                    <div class="f-row" style="margin-bottom: 10px;">
-                        <br><br><br>
-                        <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>ผู้จ่ายเงิน</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 10px;">
-                        <span>(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span>ตำแหน่ง </span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
-                    <div class="f-row" style="display: flex; align-items: center; justify-content: center;">
-                        <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="f-row" style="margin-bottom: 20px;">
-                จากเงินยืมตามสัญญาเลขที่ <span style="border-bottom:1px dotted #000; width:200px; margin:0 10px;"></span> 
-                วันที่ <span style="border-bottom:1px dotted #000; flex:1; margin-left: 10px;"></span>
-            </div>
 
-            <div style="margin-top: 20px; font-size: 10pt; line-height: 1.4;">
-                <div class="f-row" style="margin-bottom: 5px;">
-                    <span class="fw-bold" style="margin-right: 5px;">หมายเหตุ</span>
-                    <span id="pr2_remark" class="val-left fw-normal" style="flex: 1; border-bottom: 1px dotted #000; min-height: 16px;"></span>
-                </div>
-                <div style="margin-bottom: 5px; border-bottom: 1px dotted #000; height: 16px; width: 100%;"></div>
-                <div style="margin-bottom: 5px; border-bottom: 1px dotted #000; height: 16px; width: 100%;"></div>
-                <div style="margin-bottom: 15px; border-bottom: 1px dotted #000; height: 16px; width: 100%;"></div>
-                
-                <div style="display: flex;">
-                    <div class="fw-bold" style="width: 80px;">คำชี้แจง</div>
-                    <div style="flex: 1;">
-                        1. กรณีเดินทางเป็นหมู่คณะและจัดทำใบเบิกค่าใช้จ่ายรวมฉบับเดียวกัน หากระยะเวลาในการเริ่มต้นและสิ้นสุดการเดินทางของแต่ละบุคคลแตกต่างกัน ให้แสดงรายละเอียดของวันเวลาที่แตกต่างกันของบุคคลนั้นในช่องหมายเหตุ<br>
-                        2. กรณียื่นขอเบิกค่าใช้จ่ายรายบุคคล ให้ผู้ขอรับเงินเป็นผู้ลงลายมือชื่อผู้รับเงินและวันเดือนปีที่รับเงิน กรณีที่มีการยืมเงิน ให้ระบุวันที่ที่ได้รับเงินยืม เลขที่สัญญายืมและวันที่อนุมัติยืมด้วย<br>
-                        3. ผู้จ่ายเงินหมายถึงผู้ที่ขอยืมเงินจากทางราชการ และจ่ายเงินยืมนั้นให้แก่ผู้เดินทางแต่ละคน เป็นผู้ลงลายมือชื่อผู้จ่ายเงิน
+                <div style="margin-top: 20px; font-size: 10pt; line-height: 1.4;">
+                    <div class="f-row" style="margin-bottom: 5px;">
+                        <span class="fw-bold" style="margin-right: 5px;">หมายเหตุ</span>
+                        <span id="pr2_remark" class="val-left fw-normal" style="flex: 1; border-bottom: 1px dotted #000; min-height: 16px;"></span>
+                    </div>
+                    <div style="margin-bottom: 5px; border-bottom: 1px dotted #000; height: 16px; width: 100%;"></div>
+                    <div style="margin-bottom: 5px; border-bottom: 1px dotted #000; height: 16px; width: 100%;"></div>
+                    <div style="margin-bottom: 15px; border-bottom: 1px dotted #000; height: 16px; width: 100%;"></div>
+                    
+                    <div style="display: flex;">
+                        <div class="fw-bold" style="width: 80px;">คำชี้แจง</div>
+                        <div style="flex: 1;">
+                            1. กรณีเดินทางเป็นหมู่คณะและจัดทำใบเบิกค่าใช้จ่ายรวมฉบับเดียวกัน หากระยะเวลาในการเริ่มต้นและสิ้นสุดการเดินทางของแต่ละบุคคลแตกต่างกัน ให้แสดงรายละเอียดของวันเวลาที่แตกต่างกันของบุคคลนั้นในช่องหมายเหตุ<br>
+                            2. กรณียื่นขอเบิกค่าใช้จ่ายรายบุคคล ให้ผู้ขอรับเงินเป็นผู้ลงลายมือชื่อผู้รับเงินและวันเดือนปีที่รับเงิน กรณีที่มีการยืมเงิน ให้ระบุวันที่ที่ได้รับเงินยืม เลขที่สัญญายืมและวันที่อนุมัติยืมด้วย<br>
+                            3. ผู้จ่ายเงินหมายถึงผู้ที่ขอยืมเงินจากทางราชการ และจ่ายเงินยืมนั้นให้แก่ผู้เดินทางแต่ละคน เป็นผู้ลงลายมือชื่อผู้จ่ายเงิน
+                        </div>
                     </div>
                 </div>
             </div>
@@ -679,84 +683,86 @@
 
         <!-- หน้าที่ 3 (ตารางแนบ) -->
         <div class="page-break page-landscape" id="page3_container" style="padding-top: 10px; display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-                <div class="text-center fw-bold" style="flex: 1; font-size: 13pt;">หลักฐานการจ่ายเงินค่าใช้จ่ายในการเดินทางไปราชการ</div>
-                <div style="text-align: right; width: 100px;">ส่วนที่ 2<br>แบบ 8708</div>
-            </div>
-            
-            <div class="f-row" style="margin-bottom: 5px;">
-                ชื่อส่วนราชการ <span class="val text-center" id="pr3_office" style="flex: 1; margin: 0 15px;"></span> 
-                จังหวัด <span class="val text-center" id="pr3_province" style="width: 150px; margin: 0 15px;">ราชบุรี</span>
-            </div>
-            <div class="f-row" style="margin-bottom: 10px;">
-                ประกอบใบเบิกค่าใช้จ่ายในการเดินทางของ <span class="val text-center" id="pr3_main" style="width: 250px; margin: 0 15px;"></span>
-                และคณะ ลงวันที่ <span class="val text-center" id="pr3_doc_d" style="width: 50px; margin: 0 5px;"></span>
-                เดือน <span class="val text-center" id="pr3_doc_m" style="width: 120px; margin: 0 5px;"></span>
-                พ.ศ. <span class="val text-center" id="pr3_doc_y" style="width: 60px; margin: 0 5px;"></span>
-            </div>
-            
-            <table class="t-table">
-                <thead>
-                    <tr>
-                        <th rowspan="2" style="width: 4%;">ลำดับ<br>ที่</th>
-                        <th rowspan="2" style="width: 16%;">ชื่อ</th>
-                        <th rowspan="2" style="width: 16%;">ตำแหน่ง</th>
-                        <th colspan="4">ค่าใช้จ่าย (บาท)</th>
-                        <th rowspan="2" style="width: 8%;">รวม</th>
-                        <th rowspan="2" style="width: 12%;">ลายมือชื่อ<br>ผู้รับเงิน</th>
-                        <th rowspan="2" style="width: 12%;">วัน เดือน ปี<br>ที่รับเงิน</th>
-                        <th rowspan="2" style="width: 6%;">หมาย<br>เหตุ</th>
-                    </tr>
-                    <tr>
-                        <th style="width: 6.5%;">ค่าเบี้ยเลี้ยง</th>
-                        <th style="width: 6.5%;">ค่าเช่าที่พัก</th>
-                        <th style="width: 6.5%;">ค่าพาหนะ</th>
-                        <th style="width: 6.5%;">อื่นๆ</th>
-                    </tr>
-                </thead>
-                <tbody id="pr3_tbody">
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-end fw-bold" style="padding-right: 15px;">รวมเงิน</td>
-                        <td id="pr3_s_alw" class="text-end pe-1"></td>
-                        <td id="pr3_s_acc" class="text-end pe-1"></td>
-                        <td id="pr3_s_trp" class="text-end pe-1"></td>
-                        <td id="pr3_s_oth" class="text-end pe-1"></td>
-                        <td id="pr3_s_grd" class="text-end pe-1 fw-bold" style="color: blue;"></td>
-                        <td colspan="3" class="text-start" style="font-size: 9pt;">ตามสัญญาเงินยืมเลขที่ ...........................................................<br>วันที่ ........................................................................</td>
-                    </tr>
-                </tfoot>
-            </table>
-            
-            <div class="f-row" style="margin-top: 15px; margin-bottom: 10px;">
-                <span class="indent">จำนวนเงินรวมทั้งสิ้น (ตัวอักษร)</span> <span class="val text-center fw-bold" id="pr3_baht" style="flex:1; margin-left: 15px; border-color:transparent;"></span>
-            </div>
-            
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-                <div style="width: 350px;">
-                    <div class="f-row" style="margin-bottom: 5px;">
-                        <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>ผู้จ่ายเงิน</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 5px;">
-                        <span style="margin-left: 30px;">(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
-                    </div>
-                    <div class="f-row" style="margin-bottom: 5px;">
-                        <span>ตำแหน่ง</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
-                    </div>
-                    <div class="f-row">
-                        <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+            <div id="page3_content">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div class="text-center fw-bold" style="flex: 1; font-size: 13pt;">หลักฐานการจ่ายเงินค่าใช้จ่ายในการเดินทางไปราชการ</div>
+                    <div style="text-align: right; width: 100px;">ส่วนที่ 2<br>แบบ 8708</div>
+                </div>
+                
+                <div class="f-row" style="margin-bottom: 5px;">
+                    ชื่อส่วนราชการ <span class="val text-center" id="pr3_office" style="flex: 1; margin: 0 15px;"></span> 
+                    จังหวัด <span class="val text-center" id="pr3_province" style="width: 150px; margin: 0 15px;">ราชบุรี</span>
+                </div>
+                <div class="f-row" style="margin-bottom: 10px;">
+                    ประกอบใบเบิกค่าใช้จ่ายในการเดินทางของ <span class="val text-center" id="pr3_main" style="width: 250px; margin: 0 15px;"></span>
+                    และคณะ ลงวันที่ <span class="val text-center" id="pr3_doc_d" style="width: 50px; margin: 0 5px;"></span>
+                    เดือน <span class="val text-center" id="pr3_doc_m" style="width: 120px; margin: 0 5px;"></span>
+                    พ.ศ. <span class="val text-center" id="pr3_doc_y" style="width: 60px; margin: 0 5px;"></span>
+                </div>
+                
+                <table class="t-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 4%;">ลำดับ<br>ที่</th>
+                            <th rowspan="2" style="width: 16%;">ชื่อ</th>
+                            <th rowspan="2" style="width: 16%;">ตำแหน่ง</th>
+                            <th colspan="4">ค่าใช้จ่าย (บาท)</th>
+                            <th rowspan="2" style="width: 8%;">รวม</th>
+                            <th rowspan="2" style="width: 12%;">ลายมือชื่อ<br>ผู้รับเงิน</th>
+                            <th rowspan="2" style="width: 12%;">วัน เดือน ปี<br>ที่รับเงิน</th>
+                            <th rowspan="2" style="width: 6%;">หมาย<br>เหตุ</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 6.5%;">ค่าเบี้ยเลี้ยง</th>
+                            <th style="width: 6.5%;">ค่าเช่าที่พัก</th>
+                            <th style="width: 6.5%;">ค่าพาหนะ</th>
+                            <th style="width: 6.5%;">อื่นๆ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pr3_tbody">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end fw-bold" style="padding-right: 15px;">รวมเงิน</td>
+                            <td id="pr3_s_alw" class="text-end pe-1"></td>
+                            <td id="pr3_s_acc" class="text-end pe-1"></td>
+                            <td id="pr3_s_trp" class="text-end pe-1"></td>
+                            <td id="pr3_s_oth" class="text-end pe-1"></td>
+                            <td id="pr3_s_grd" class="text-end pe-1 fw-bold" style="color: blue;"></td>
+                            <td colspan="3" class="text-start" style="font-size: 9pt;">ตามสัญญาเงินยืมเลขที่ ...........................................................<br>วันที่ ........................................................................</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <div class="f-row" style="margin-top: 15px; margin-bottom: 10px;">
+                    <span class="indent">จำนวนเงินรวมทั้งสิ้น (ตัวอักษร)</span> <span class="val text-center fw-bold" id="pr3_baht" style="flex:1; margin-left: 15px; border-color:transparent;"></span>
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                    <div style="width: 350px;">
+                        <div class="f-row" style="margin-bottom: 5px;">
+                            <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>ผู้จ่ายเงิน</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 5px;">
+                            <span style="margin-left: 30px;">(</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span><span>)</span>
+                        </div>
+                        <div class="f-row" style="margin-bottom: 5px;">
+                            <span>ตำแหน่ง</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
+                        <div class="f-row">
+                            <span>วันที่</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style="font-size: 10pt; line-height: 1.4;">
-                <div style="display: flex;">
-                    <div class="fw-bold" style="width: 60px;">คำชี้แจง</div>
-                    <div style="flex: 1;">
-                        1. ค่าเบี้ยเลี้ยงและค่าเช่าที่พักให้ระบุอัตราวันละและจำนวนวันที่ขอเบิกของแต่ละบุคคลในช่องหมายเหตุ<br>
-                        2. ให้ผู้มีสิทธิแต่ละคนเป็นผู้ลงลายมือชื่อผู้รับเงินและวันเดือนปีที่ได้รับเงิน กรณีเป็นการรับจากเงินยืม ให้ระบุวันที่ที่ได้รับจากเงินยืม<br>
-                        3. ผู้จ่ายเงินหมายถึงผู้ที่ขอยืมเงินจากทางราชการ และจ่ายเงินยืมนั้นให้แก่ผู้เดินทางแต่ละคน เป็นผู้ลงลายมือชื่อผู้จ่ายเงิน
+                <div style="font-size: 6pt; line-height: 1.4;">
+                    <div style="display: flex;">
+                        <div class="fw-bold" style="width: 60px;">คำชี้แจง</div>
+                        <div style="flex: 1;">
+                            1. ค่าเบี้ยเลี้ยงและค่าเช่าที่พักให้ระบุอัตราวันละและจำนวนวันที่ขอเบิกของแต่ละบุคคลในช่องหมายเหตุ<br>
+                            2. ให้ผู้มีสิทธิแต่ละคนเป็นผู้ลงลายมือชื่อผู้รับเงินและวันเดือนปีที่ได้รับเงิน กรณีเป็นการรับจากเงินยืม ให้ระบุวันที่ที่ได้รับจากเงินยืม<br>
+                            3. ผู้จ่ายเงินหมายถึงผู้ที่ขอยืมเงินจากทางราชการ และจ่ายเงินยืมนั้นให้แก่ผู้เดินทางแต่ละคน เป็นผู้ลงลายมือชื่อผู้จ่ายเงิน
+                        </div>
                     </div>
                 </div>
             </div>
@@ -764,73 +770,54 @@
 
         <!-- ================== หน้าที่ 4 (บก.111) ================== -->
         <div class="page-break" id="page4_container" style="padding-top: 10px; display: none;">
-            <div style="text-align: right; margin-bottom: 10px; font-size: 11pt;">แบบ บก.๑๑๑</div>
-            <div class="text-center fw-bold" style="font-size: 16pt; margin-bottom: 20px;">ใบรับรองแทนใบเสร็จรับเงิน</div>
-            
-            <div style="margin-bottom: 10px; line-height: 1.5;">
-                <div class="f-row">
-                    <span style="width: 100px;">ส่วนราชการ</span>
-                    <span class="val-left" id="pr4_office_1" style="flex: 1;"></span>
-                </div>
-            </div>
-            
-            <table class="t-table" style="margin-bottom: 15px;">
-                <thead>
-                    <tr>
-                        <th style="width: 15%;">วัน เดือน ปี</th>
-                        <th style="width: 55%;">รายละเอียดรายจ่าย</th>
-                        <th style="width: 15%;">จำนวนเงิน (บาท)</th>
-                        <th style="width: 15%;">หมายเหตุ</th>
-                    </tr>
-                </thead>
-                <tbody id="pr4_tbody">
-                    <!-- JS generated -->
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2" class="text-center fw-bold">รวมทั้งสิ้น <span id="pr4_baht_txt" style="color:#0000cd; margin-left:10px;"></span></td>
-                        <td class="text-end fw-bold" id="pr4_grd_tot" style="color:#0000cd;"></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <!-- ส่วนสรุปและการรับรอง -->
-            <div style="line-height: 1.5; margin-bottom: 20px;">
-                <div class="f-row" style="margin-bottom: 10px;">
-                    <span style="margin-left: 50px;">ข้าพเจ้า</span> <span class="val text-center" id="pr4_name_1" style="width: 250px;"></span>
-                    <span style="margin-left: 10px;">ตำแหน่ง</span> <span class="val-left" id="pr4_pos_1" style="flex: 1;"></span>
-                </div>
-                <div class="f-row" style="margin-bottom: 10px;">
-                    <span style="width: 50px;">สังกัด</span> <span class="val-left" id="pr4_office_2" style="flex: 1;"></span>
-                </div>
-                <div style="text-indent: 50px; text-align: justify;">
-                    ขอรับรองว่า รายจ่ายข้างต้นนี้ ไม่อาจเรียกใบเสร็จรับเงินจากผู้รับได้ และข้าพเจ้าได้จ่ายไปในงานของทางราชการโดยแท้
-                </div>
-            </div>
-
-            <!-- ลายเซ็น -->
-            <div style="display: flex; justify-content: flex-end; text-align: center; margin-bottom: 20px;">
-                <div style="width: 350px;">
-                    <div style="margin-bottom: 10px;">(ลงชื่อ)........................................................</div>
-                    <div style="margin-bottom: 10px;">(........................................................)</div>
-                    <div class="f-row" style="justify-content: center; white-space: nowrap; margin-bottom: 10px;">
-                        ตำแหน่ง........................................................
-                    </div>
-                    <div class="f-row" style="justify-content: center; white-space: nowrap;">
-                        วันที่.............เดือน................................พ.ศ................
+            <div id="page4_content">
+                <div style="text-align: right; margin-bottom: 10px; font-size: 11pt;">แบบ บก.๑๑๑</div>
+                <div class="text-center fw-bold" style="font-size: 16pt; margin-bottom: 20px;">ใบรับรองแทนใบเสร็จรับเงิน</div>
+                
+                <div style="margin-bottom: 10px; line-height: 1.5;">
+                    <div class="f-row">
+                        <span style="width: 100px;">ส่วนราชการ</span>
+                        <span class="val-left" id="pr4_office_1" style="flex: 1;"></span>
                     </div>
                 </div>
-            </div>
+                
+                <table class="t-table" style="margin-bottom: 15px;">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">วัน เดือน ปี</th>
+                            <th style="width: 55%;">รายละเอียดรายจ่าย</th>
+                            <th style="width: 15%;">จำนวนเงิน (บาท)</th>
+                            <th style="width: 15%;">หมายเหตุ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pr4_tbody">
+                        <!-- JS generated -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-center fw-bold">รวมทั้งสิ้น <span id="pr4_baht_txt" style="color:#0000cd; margin-left:10px;"></span></td>
+                            <td class="text-end fw-bold" id="pr4_grd_tot" style="color:#0000cd;"></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
 
-            <!-- ส่วนหมายเหตุ ขอเบิกเพียง (Hidden by default) -->
-            <div id="pr4_remark_section" style="display: none; margin-top: 10px;">
-                <div class="fw-bold" style="text-decoration: underline; margin-bottom: 10px;">หมายเหตุ</div>
-                <div class="f-row" style="margin-bottom: 15px;">
-                    ขอเบิกเงินเพียง <span class="val text-center fw-bold" id="pr4_req_amt" style="width: 100px;"></span> บาท
-                    <span style="margin-left: 10px;">(<span class="val text-center fw-bold" id="pr4_req_baht_txt" style="min-width: 200px; border:none;"></span>)</span>
+                <!-- ส่วนสรุปและการรับรอง -->
+                <div style="line-height: 1.5; margin-bottom: 20px;">
+                    <div class="f-row" style="margin-bottom: 10px;">
+                        <span style="margin-left: 50px;">ข้าพเจ้า</span> <span class="val text-center" id="pr4_name_1" style="width: 250px;"></span>
+                        <span style="margin-left: 10px;">ตำแหน่ง</span> <span class="val-left" id="pr4_pos_1" style="flex: 1;"></span>
+                    </div>
+                    <div class="f-row" style="margin-bottom: 10px;">
+                        <span style="width: 50px;">สังกัด</span> <span class="val-left" id="pr4_office_2" style="flex: 1;"></span>
+                    </div>
+                    <div style="text-indent: 50px; text-align: justify;">
+                        ขอรับรองว่า รายจ่ายข้างต้นนี้ ไม่อาจเรียกใบเสร็จรับเงินจากผู้รับได้ และข้าพเจ้าได้จ่ายไปในงานของทางราชการโดยแท้
+                    </div>
                 </div>
-                <div style="display: flex; justify-content: flex-end; text-align: center;">
+
+                <!-- ลายเซ็น -->
+                <div style="display: flex; justify-content: flex-end; text-align: center; margin-bottom: 20px;">
                     <div style="width: 350px;">
                         <div style="margin-bottom: 10px;">(ลงชื่อ)........................................................</div>
                         <div style="margin-bottom: 10px;">(........................................................)</div>
@@ -839,6 +826,27 @@
                         </div>
                         <div class="f-row" style="justify-content: center; white-space: nowrap;">
                             วันที่.............เดือน................................พ.ศ................
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ส่วนหมายเหตุ ขอเบิกเพียง (Hidden by default) -->
+                <div id="pr4_remark_section" style="display: none; margin-top: 10px;">
+                    <div class="fw-bold" style="text-decoration: underline; margin-bottom: 10px;">หมายเหตุ</div>
+                    <div class="f-row" style="margin-bottom: 15px;">
+                        ขอเบิกเงินเพียง <span class="val text-center fw-bold" id="pr4_req_amt" style="width: 100px;"></span> บาท
+                        <span style="margin-left: 10px;">(<span class="val text-center fw-bold" id="pr4_req_baht_txt" style="min-width: 200px; border:none;"></span>)</span>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; text-align: center;">
+                        <div style="width: 350px;">
+                            <div style="margin-bottom: 10px;">(ลงชื่อ)........................................................</div>
+                            <div style="margin-bottom: 10px;">(........................................................)</div>
+                            <div class="f-row" style="justify-content: center; white-space: nowrap; margin-bottom: 10px;">
+                                ตำแหน่ง........................................................
+                            </div>
+                            <div class="f-row" style="justify-content: center; white-space: nowrap;">
+                                วันที่.............เดือน................................พ.ศ................
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1186,7 +1194,7 @@
     }
 
     // =========================================================================
-    // ฟังก์ชันสร้างและสั่งพิมพ์ พร้อมระบบ Auto Zoom ย่อขนาดอัตโนมัติ
+    // ฟังก์ชันสร้างและสั่งพิมพ์ (พร้อมระบบ Auto Zoom)
     // =========================================================================
     function printDocument() {
         calculateAll(); 
@@ -1194,7 +1202,6 @@
         const main = d.travelers[0];
         const fmt = (num) => Number(num) > 0 ? Number(num).toLocaleString('en-US', {minimumFractionDigits:2}) : '-';
         
-        // 1. ดึงข้อมูล
         const today = new Date();
         const docDay = today.getDate();
         const docMonth = monthNames[today.getMonth() + 1];
@@ -1204,7 +1211,6 @@
         const eDate = parseThaiDate($('#end_date').val());
         const oDate = parseThaiDate($('#doc_order_date').val());
         
-        // ตรวจสอบข้อมูล "ผ่าน" (เรียน ผู้บังคับบัญชา)
         const passThrough = $('#pass_through').val().trim();
         let commanderText = $('#commander_type').val();
         
@@ -1373,7 +1379,6 @@
             let isPublicTransport = (type === 'bus' || type === 'train' || type === 'plane' || type === 'taxi' || type === 'moto_taxi');
             
             let pubDateStr = '';
-            // ดึงวันที่จากตารางย่อย
             if (isPublicTransport || type === 'expressway' || isOther) {
                 let pDate = $(this).find('.transport-date').val();
                 if (pDate) {
@@ -1395,7 +1400,6 @@
             let displayFrom = (isPublicTransport && $(this).find('.transport-from').val().trim() !== '') ? $(this).find('.transport-from').val().trim() : tripFrom;
             let displayTo = (isPublicTransport && $(this).find('.transport-to').val().trim() !== '') ? $(this).find('.transport-to').val().trim() : tripLoc;
 
-            // ไม่แสดงรถยนต์ราชการในหน้า 4 โดยเด็ดขาด
             if (!isGovCar) { 
                 let calc = amt; 
                 
@@ -1478,16 +1482,16 @@
             $('#page4_container').addClass('d-none').hide();
         }
 
-        // ================= กระบวนการคำนวณ Zoom อัตโนมัติ (ให้พอดี 1 หน้ากระดาษ) =================
+        // ================= กระบวนการคำนวณ Auto-Zoom (ให้พอดี 1 หน้ากระดาษเสมอ) =================
         $('#ui-section').hide();
         $('#print-section').show();
         
-        // Reset Zoom กลับเป็นปกติก่อนวัดขนาด
+        // Reset Zoom ทั้งหมดกลับเป็น 1 เพื่อคำนวณขนาดที่แท้จริง
         $('#page1_container, #page3_container, #page4_container').css('zoom', 1);
 
         setTimeout(() => {
-            // ขีดจำกัดความสูงที่ปลอดภัยสำหรับ 1 หน้า (พิกเซล)
-            const portraitLimit = 1000; 
+            // กำหนดความสูงสูงสุดที่ปลอดภัยสำหรับหน้า A4 (หน่วยเป็น Pixel)
+            const portraitLimit = 1000;
             const landscapeLimit = 680;
 
             let p1 = document.getElementById('page1_container');
@@ -1512,11 +1516,12 @@
                 }
             }
 
+            // เมื่อย่อขนาดเสร็จแล้วจึงส่งคำสั่งพิมพ์ให้ Browser
             window.print();
 
+            // คืนค่าหน้าจอกลับมาและล้างค่าการซูมเมื่อพิมพ์เสร็จ
             $('#print-section').hide();
             $('#ui-section').show();
-            // คืนค่า Zoom กลับหลังพิมพ์เสร็จ
             $('#page1_container, #page3_container, #page4_container').css('zoom', 1);
         }, 150);
     }
@@ -1634,7 +1639,7 @@
             calculateAll();
         });
 
-        // เปลี่ยนเป้าหมายปุ่ม Print มาเรียกใช้ฟังก์ชันใหม่ (รองรับ Zoom)
+        // เปลี่ยนเป้าหมายปุ่ม Print มาเรียกใช้ฟังก์ชันใหม่ (รองรับ Auto Zoom)
         $(document).on('click', '#btn_print_pdf', function() { printDocument(); });
         
         setTimeout(calculateAll, 200);

@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=1200">
-    <title>สำนักงานส่งเสริมและพัฒนาการเกษตรที่ 2 จังหวัดราชบุรี</title>
+    <title>สสก.2 ราชบุรี แบบ 8708</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
     
     /* ================== PRINT SECTION STYLES ================== */
     #print-section { display: none; background: white; color: black; font-family: 'Sarabun', serif; font-size: 11pt; line-height: 1.35; }
-    #print-section .page-break { page-break-after: always; clear: both; box-sizing: border-box; position: relative; overflow: hidden; }
+    #print-section .page-break { page-break-after: always; clear: both; box-sizing: border-box; }
     #print-section .page-break:last-child { page-break-after: auto; }
     #print-section .val { color: #0000cd; display: inline-block; padding: 0 4px; border-bottom: 1px dotted #000; text-align: center; font-weight: 500; line-height: 1.2; min-width: 30px; font-size: 11pt; }
     #print-section .val-left { color: #0000cd; display: inline-block; padding-left: 5px; border-bottom: 1px dotted #000; text-align: left; font-weight: 500; line-height: 1.2; min-width: 30px; font-size: 11pt; }
@@ -58,14 +58,31 @@
 
     @media print {
         @page { size: A4 portrait; margin: 12mm 15mm; } 
-        @page landscape_page { size: A4 landscape; margin: 10mm 12mm; } 
+        @page landscape { size: A4 landscape; margin: 10mm 12mm; } 
         
-        body { margin: 0; padding: 0; min-width: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        body { margin: 0; padding: 0; min-width: auto !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         #ui-section { display: none !important; }
-        #print-section { display: block !important; padding: 0; margin: 0; background: none; width: 100%; }
+        #print-section { display: block !important; padding: 0; background: none; }
         
-        .page-break { width: 180mm !important; margin: 0 auto; padding: 0; }
-        .page-landscape { page: landscape_page; width: 273mm !important; }
+        #print-section .page-break { width: 100%; margin: 0; padding: 0; box-shadow: none; }
+        #print-section .page-landscape { page: landscape; width: 100%; padding: 0; }
+
+        /* คลาสพิเศษสำหรับบังคับหน้า 3 ให้เป็นแนวนอนเมื่อสั่งพิมพ์ผ่านมือถือ */
+        .mobile-landscape-wrapper {
+            width: 100% !important;
+            height: 270mm !important;
+            position: relative !important;
+            overflow: hidden !important;
+            page-break-after: always;
+        }
+        .mobile-landscape-content {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            width: 270mm !important;
+            height: 190mm !important;
+            transform: translate(-50%, -50%) rotate(-90deg) !important;
+        }
     }
     </style>
 </head>
@@ -448,8 +465,8 @@
                 <div style="text-align: right; margin-bottom: 10px; line-height: 1.4;">
                     ที่ทำการ <span class="val text-center" id="pr_office" style="min-width: 200px;"></span><br>
                     วันที่ <span class="val text-center" id="pr_doc_d" style="width: 40px;"></span> 
-                    เดือน <span class="val text-center" id="pr_doc_m" style="width: 120px;"></span> 
-                    พ.ศ. <span class="val text-center" id="pr_doc_y" style="width: 60px;"></span>
+                    เดือน <span class="val text-center" id="pr_doc_m" style="width: 100px;"></span> 
+                    พ.ศ. <span class="val text-center" id="pr_doc_y" style="width: 70px;"></span>
                 </div>
 
                 <div class="f-row" style="margin-bottom: 5px;">เรื่อง &nbsp;&nbsp;&nbsp;ขออนุมัติเบิกค่าใช้จ่ายในการเดินทางไปราชการ</div>
@@ -488,19 +505,19 @@
                         <span class="chk" style="margin-left: 10px;">◯</span> บ้านพัก &nbsp;
                         <span class="chk">◯</span> สำนักงาน &nbsp;
                         <span class="chk">◯</span> ประเทศไทย &nbsp;&nbsp;
-                        ตั้งแต่วันที่ <span class="val text-center" id="pr_s_d" style="width: 50px;"></span>
-                        เดือน <span class="val text-center" id="pr_s_m" style="width: 130px;"></span>
-                        พ.ศ. <span class="val text-center" id="pr_s_y" style="width: 60px;"></span>
-                        เวลา <span class="val text-center" id="pr_s_t" style="width: 60px;"></span> น.
+                        ตั้งแต่วันที่ <span class="val text-center" id="pr_s_d" style="width: 60px;"></span>
+                        เดือน <span class="val text-center" id="pr_s_m" style="width: 100px;"></span>
+                        พ.ศ. <span class="val text-center" id="pr_s_y" style="width: 70px;"></span>
+                        เวลา <span class="val text-center" id="pr_s_t" style="width: 70px;"></span> น.
                     </div>
                     <div class="f-row" style="margin-bottom: 5px; flex-wrap: nowrap; white-space: nowrap;">
                         และกลับถึง <span class="chk" style="margin-left: 10px;">◯</span> บ้านพัก &nbsp;
                         <span class="chk">◯</span> สำนักงาน &nbsp;
                         <span class="chk">◯</span> ประเทศไทย &nbsp;&nbsp;
-                        วันที่ <span class="val text-center" id="pr_e_d" style="width: 50px;"></span>
-                        เดือน <span class="val text-center" id="pr_e_m" style="width: 130px;"></span>
-                        พ.ศ. <span class="val text-center" id="pr_e_y" style="width: 60px;"></span>
-                        เวลา <span class="val text-center" id="pr_e_t" style="width: 60px;"></span> น.
+                        วันที่ <span class="val text-center" id="pr_e_d" style="width: 60px;"></span>
+                        เดือน <span class="val text-center" id="pr_e_m" style="width: 100px;"></span>
+                        พ.ศ. <span class="val text-center" id="pr_e_y" style="width: 70px;"></span>
+                        เวลา <span class="val text-center" id="pr_e_t" style="width: 70px;"></span> น.
                     </div>
                     <div class="f-row">
                         รวมเวลาไปราชการครั้งนี้ <span class="val text-center" id="pr_t_d" style="width: 60px; margin: 0 10px;"></span> วัน 
@@ -554,7 +571,7 @@
                 <div style="display: flex; justify-content: space-between; text-align: center; margin-top: 10px;">
                     <div style="width: 45%;">
                         <div style="margin-bottom: 15px;">ลงชื่อผู้ตรวจ</div>
-                        <br><br><br>
+                        <br><br>
                         <div>( <span style="border-bottom: 1px dotted #000; display: inline-block; width: 200px;"></span> )</div>
                         <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px;">
                             <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">ตำแหน่ง</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
@@ -563,7 +580,7 @@
                     </div>
                     <div style="width: 45%;">
                         <div style="margin-bottom: 15px;">ลงชื่อผู้ขอรับเงิน</div>
-                        <br><br><br>
+                        <br><br>
                         <div>( <span style="border-bottom: 1px dotted #000; display: inline-block; width: 200px;"></span> )</div>
                         <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px;">
                             <div style="display: flex; width: 80%;"><span style="width: 60px; text-align: left;">ตำแหน่ง</span><span style="flex: 1; border-bottom: 1px dotted #000;"></span></div>
@@ -582,7 +599,7 @@
                 <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
                     <div style="width: 45%; padding-left: 20px;">
                         <div style="margin-bottom: 25px; line-height: 1.5; white-space: nowrap;">ได้ตรวจสอบหลักฐานการเบิกจ่ายเงินที่แนบ<br>ถูกต้องแล้ว เห็นควรอนุมัติให้เบิกจ่ายได้</div>
-                        
+                        <br><br>
                         <div class="f-row" style="margin-bottom: 15px;">
                             <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
                         </div>
@@ -599,7 +616,7 @@
                     
                     <div style="width: 45%;">
                         <div class="text-center" style="margin-bottom: 45px;">อนุมัติให้จ่ายได้</div>
-                        
+                        <br><br>
                         <div class="f-row" style="margin-bottom: 15px;">
                             <span>ลงชื่อ</span><span style="border-bottom:1px dotted #000; flex:1; margin:0 10px;"></span>
                         </div>
@@ -682,7 +699,7 @@
         </div>
 
         <!-- หน้าที่ 3 (ตารางแนบ) -->
-        <div class="page-break page-landscape" id="page3_container" style="padding-top: 10px; display: none;">
+        <div class="page-landscape" id="page3_container" style="padding-top: 10px; display: none;">
             <div id="page3_content">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
                     <div class="text-center fw-bold" style="flex: 1; font-size: 13pt;">หลักฐานการจ่ายเงินค่าใช้จ่ายในการเดินทางไปราชการ</div>
@@ -755,7 +772,7 @@
                     </div>
                 </div>
 
-                <div style="font-size: 6pt; line-height: 1.4;">
+                <div style="font-size: 10pt; line-height: 1.4;">
                     <div style="display: flex;">
                         <div class="fw-bold" style="width: 60px;">คำชี้แจง</div>
                         <div style="flex: 1;">
@@ -1194,7 +1211,7 @@
     }
 
     // =========================================================================
-    // ฟังก์ชันสร้างและสั่งพิมพ์ (พร้อมระบบ Auto Zoom)
+    // ฟังก์ชันสร้างและสั่งพิมพ์ (Auto-Zoom + Force Landscape for Mobile)
     // =========================================================================
     function printDocument() {
         calculateAll(); 
@@ -1482,47 +1499,71 @@
             $('#page4_container').addClass('d-none').hide();
         }
 
-        // ================= กระบวนการคำนวณ Auto-Zoom (ให้พอดี 1 หน้ากระดาษเสมอ) =================
+        // ================= ตรวจจับ Mobile & ปรับระบบพิมพ์ =================
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        let p3container = document.getElementById('page3_container');
+        let p3content = document.getElementById('page3_content');
+        
+        if (p3container && p3content) {
+            if (isMobile) {
+                p3container.classList.remove('page-landscape');
+                p3container.classList.add('page-landscape-wrapper');
+                p3content.classList.add('page-landscape-content');
+            } else {
+                p3container.classList.add('page-landscape');
+                p3container.classList.remove('page-landscape-wrapper');
+                p3content.classList.remove('page-landscape-content');
+            }
+        }
+
+        // ================= กระบวนการ Auto-Zoom ย่อขนาด =================
         $('#ui-section').hide();
         $('#print-section').show();
         
-        // Reset Zoom ทั้งหมดกลับเป็น 1 เพื่อคำนวณขนาดที่แท้จริง
-        $('#page1_container, #page3_container, #page4_container').css('zoom', 1);
+        // ล้างค่าซูมก่อนเพื่อวัดขนาดจริง
+        $('#print-section .page-break').css('zoom', 1);
 
         setTimeout(() => {
-            // กำหนดความสูงสูงสุดที่ปลอดภัยสำหรับหน้า A4 (หน่วยเป็น Pixel)
+            // ความสูงจำกัด (A4)
             const portraitLimit = 1000;
-            const landscapeLimit = 680;
+            const landscapeLimit = isMobile ? 1000 : 680; // มือถือเมื่อหมุนแล้วความสูงขอบเขตจะเท่ากับแนวตั้ง (1000px)
 
+            // ย่อหน้า 1
             let p1 = document.getElementById('page1_container');
             if (p1 && p1.scrollHeight > portraitLimit) {
-                let scaleRatio = Math.floor((portraitLimit / p1.scrollHeight) * 100) / 100;
-                p1.style.zoom = scaleRatio;
+                p1.style.zoom = Math.floor((portraitLimit / p1.scrollHeight) * 100) / 100;
             }
 
-            let p3 = document.getElementById('page3_container');
-            if (p3 && !p3.classList.contains('d-none')) {
-                if (p3.scrollHeight > landscapeLimit) {
-                    let scaleRatio = Math.floor((landscapeLimit / p3.scrollHeight) * 100) / 100;
-                    p3.style.zoom = scaleRatio;
+            // ย่อหน้า 3
+            if (p3container && !p3container.classList.contains('d-none')) {
+                if (isMobile) {
+                    if (p3content.scrollHeight > landscapeLimit) {
+                        p3content.style.zoom = Math.floor((landscapeLimit / p3content.scrollHeight) * 100) / 100;
+                    }
+                } else {
+                    if (p3container.scrollHeight > landscapeLimit) {
+                        p3container.style.zoom = Math.floor((landscapeLimit / p3container.scrollHeight) * 100) / 100;
+                    }
                 }
             }
 
+            // ย่อหน้า 4
             let p4 = document.getElementById('page4_container');
             if (p4 && !p4.classList.contains('d-none')) {
                 if (p4.scrollHeight > portraitLimit) {
-                    let scaleRatio = Math.floor((portraitLimit / p4.scrollHeight) * 100) / 100;
-                    p4.style.zoom = scaleRatio;
+                    p4.style.zoom = Math.floor((portraitLimit / p4.scrollHeight) * 100) / 100;
                 }
             }
 
-            // เมื่อย่อขนาดเสร็จแล้วจึงส่งคำสั่งพิมพ์ให้ Browser
+            // สั่งพิมพ์
             window.print();
 
-            // คืนค่าหน้าจอกลับมาและล้างค่าการซูมเมื่อพิมพ์เสร็จ
+            // คืนค่าหน้าจอกลับมา
             $('#print-section').hide();
             $('#ui-section').show();
-            $('#page1_container, #page3_container, #page4_container').css('zoom', 1);
+            $('#print-section .page-break, .page-landscape-content').css('zoom', 1);
+
         }, 150);
     }
 
@@ -1639,7 +1680,7 @@
             calculateAll();
         });
 
-        // เปลี่ยนเป้าหมายปุ่ม Print มาเรียกใช้ฟังก์ชันใหม่ (รองรับ Auto Zoom)
+        // เปลี่ยนเป้าหมายปุ่ม Print มาเรียกใช้ฟังก์ชันใหม่
         $(document).on('click', '#btn_print_pdf', function() { printDocument(); });
         
         setTimeout(calculateAll, 200);

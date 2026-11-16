@@ -1686,54 +1686,6 @@
     });
     </script>
 
-    <!-- ================== [เพิ่มใหม่] สคริปต์ระบบเก็บสถิติผู้เข้าชมและใช้งาน ================== -->
-    <script>
-    (function() {
-        const StatsManager = {
-            init: function() {
-                let visitors = parseInt(localStorage.getItem('ssk2_stat_visitors') || '0') + 1;
-                localStorage.setItem('ssk2_stat_visitors', visitors);
-                this.updateDisplay();
-            },
-            incrementCalc: function() {
-                let calcs = parseInt(localStorage.getItem('ssk2_stat_calcs') || '0') + 1;
-                localStorage.setItem('ssk2_stat_calcs', calcs);
-                this.updateDisplay();
-            },
-            incrementPrint: function() {
-                let prints = parseInt(localStorage.getItem('ssk2_stat_prints') || '0') + 1;
-                localStorage.setItem('ssk2_stat_prints', prints);
-                this.updateDisplay();
-            },
-            updateDisplay: function() {
-                let visitors = parseInt(localStorage.getItem('ssk2_stat_visitors') || '1');
-                let calcs = parseInt(localStorage.getItem('ssk2_stat_calcs') || '0');
-                let prints = parseInt(localStorage.getItem('ssk2_stat_prints') || '0');
-                
-                $('#stat_visitors').text(visitors.toLocaleString());
-                $('#stat_calculations').text(calcs.toLocaleString());
-                $('#stat_prints').text(prints.toLocaleString());
-            }
-        };
-
-        $(document).ready(function() {
-            StatsManager.init();
-
-            // นับสถิติเมื่อมีการพิมพ์/แก้ไขข้อมูลในฟอร์ม (นับเมื่อหยุดพิมพ์ 1 วินาที)
-            let calcTimer;
-            $(document).on('input change', '#travelCalcForm input, #travelCalcForm select', function() {
-                clearTimeout(calcTimer);
-                calcTimer = setTimeout(function() {
-                    StatsManager.incrementCalc();
-                }, 1000);
-            });
-
-            // นับสถิติเมื่อกดปุ่มสั่งพิมพ์เอกสาร
-            $(document).on('click', '#btn_print_pdf', function() {
-                StatsManager.incrementPrint();
-            });
-        });
-    })();
     <!-- ================== [อัปเดต] สคริปต์ระบบเก็บสถิติออนไลน์ผ่าน Google Sheets ================== -->
     <script>
     (function() {
@@ -1777,6 +1729,7 @@
             });
         });
     })();
+    
     </script>
     </script>
 </body>
